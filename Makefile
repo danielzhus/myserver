@@ -5,7 +5,7 @@ export BUILD_OUT_DIR=$(BUILD_HOME_DIR)/bin
 
 # 指定编译器参数
 export CXX=g++
-export CXXFLAGS=-Wall -g
+export CXXFLAGS=-Wall -g -std=c++11
 
 all:
 	make -C $(SOURCE_PATH)

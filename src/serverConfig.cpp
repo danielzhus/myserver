@@ -37,8 +37,8 @@ void GlobalConfig::initConfig(const std::string& configFileName)
     std::string buf;
     while(getline(configFile, buf))
     {
-        int index = buf.find(":");
-        if ((unsigned)index == string::npos)
+        size_t index = buf.find(":");
+        if (index == string::npos)
         {
             continue;
         }   
