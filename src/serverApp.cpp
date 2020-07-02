@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     gc.initConfig("./config/config");
 
     // 配置服务器
-    Server server(gc.ip, gc.port);
+    Server server(gc.getIp(), gc.getPort());
 
     // 服务运行
     LOG(INFO, "*****************server finish*****************");

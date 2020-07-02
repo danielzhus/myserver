@@ -6,6 +6,7 @@
 
 using namespace std;
 using boost::asio::ip::tcp;
+using sock_ptr = boost::shared_ptr<tcp::socket>;
 
 class Server
 {
@@ -15,7 +16,7 @@ class Server
     // 不允许拷贝
     Server(const Server &) = delete;
     Server(const Server &&) = delete;
-    void accept_handler(const boost::system::error_code &error, tcp::socket socket);
+    void accept_handler(const boost::system::error_code &error, sock_ptr socket);
     void run();
 
     void operator=(const Server &) = delete;
