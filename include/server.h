@@ -2,6 +2,7 @@
 #define _SERVER_H_
 
 #include <boost/asio.hpp>
+#include "session.h"
 #include <string.h>
 
 using namespace std;
@@ -16,7 +17,8 @@ class Server
     // 不允许拷贝
     Server(const Server &) = delete;
     Server(const Server &&) = delete;
-    void accept_handler(const boost::system::error_code &error, sock_ptr socket);
+    void wait_connect();
+    void accept_handler(const boost::system::error_code &error, session_ptr session);
     void run();
 
     void operator=(const Server &) = delete;
@@ -24,7 +26,6 @@ class Server
     boost::asio::io_service m_service;          // 主服务
     tcp::endpoint m_endpoint;                   // 配置监听端口
     tcp::acceptor m_acceptor;                   // 端口监听器
-    tcp::socket m_socket;                       // socket
 };
 
 #endif // _SERVER_H_
