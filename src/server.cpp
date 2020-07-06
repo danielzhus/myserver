@@ -23,7 +23,6 @@ void Server::accept_handler(const boost::system::error_code &error, session_ptr 
         
         // 连接成功快速返回不占用服务器资源
         wait_connect();
-        std::cout << 123 << std::endl;
         session->communicationInit();
     }
 }
