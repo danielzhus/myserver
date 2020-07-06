@@ -7,6 +7,12 @@
 
 Server::Server(string ip, int port):m_service(), m_endpoint(tcp::v4(), port), m_acceptor(m_service, m_endpoint){}
 
+void Server::init()
+{
+    // 目前只做等待连接处理
+    wait_connect();
+}
+
 void Server::wait_connect()
 {
     boost::system::error_code error;
@@ -29,6 +35,5 @@ void Server::accept_handler(const boost::system::error_code &error, session_ptr 
 
 void Server::run()
 {
-    wait_connect();
     m_service.run();
 }

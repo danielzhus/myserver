@@ -2,7 +2,6 @@
 #include "logSys.h"
 #include <boost/bind.hpp>
 #include <boost/format.hpp>
-#include <iostream>
 
 Session::Session(boost::asio::io_service& ios):m_socket(ios){}
 
@@ -13,7 +12,6 @@ tcp::socket& Session::getSocket()
 
 void Session::communicationInit()
 {
-    std::cout << 123456 << std::endl;
     m_socket.async_read_some(boost::asio::buffer(m_buffer),
           boost::bind(&Session::read_handler, shared_from_this(), _1, _2));
 }

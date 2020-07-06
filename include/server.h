@@ -1,9 +1,9 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_
 
-#include <boost/asio.hpp>
 #include "session.h"
-#include <string.h>
+#include <boost/asio.hpp>
+#include <map>
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -17,11 +17,17 @@ class Server
     // 不允许拷贝
     Server(const Server &) = delete;
     Server(const Server &&) = delete;
-    void wait_connect();
-    void accept_handler(const boost::system::error_code &error, session_ptr session);
-    void run();
-
     void operator=(const Server &) = delete;
+    // 注册连接回调
+    void init();    
+    // 服务运行
+    void run();
+  private:
+    // 注册连接等待回调
+    void wait_connect();
+    // accept处理
+    void accept_handler(const boost::system::error_code &error, session_ptr session);
+ 
   private:
     boost::asio::io_service m_service;          // 主服务
     tcp::endpoint m_endpoint;                   // 配置监听端口

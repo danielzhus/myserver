@@ -1,6 +1,7 @@
 #include "serverConfig.h"
 #include "logSys.h"
 #include "server.h"
+#include "funcManager.h"
 #include <boost/asio.hpp>
 #include <iostream>
 
@@ -19,6 +20,8 @@ int main(int argc, char *argv[])
 
     // 配置服务器
     Server server(gc.getIp(), gc.getPort());
+    FuncManager::instance(&server);
+    server.init();
 
     // 服务运行
     LOG(INFO, "*****************server finish*****************");
