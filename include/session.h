@@ -3,11 +3,14 @@
 
 #include <boost/asio.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/array.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string.h>
 
 using namespace std;
 using boost::asio::ip::tcp;
+
+#define BUFFER_SIZE 1024 * 64
 
 class Session : public boost::enable_shared_from_this<Session>
 {   
@@ -17,12 +20,11 @@ public:
     tcp::socket& getSocket();
 
     void communicationInit();
-    void write_handler(boost::shared_ptr<std::string> pstr, error_code ec, size_t bytes_transferred);
-    void read_handler(boost::shared_ptr<std::string> pstr, error_code ec, size_t bytes_transferred);
+    void read_handler(error_code ec, size_t bytes_transferred);
 
 private:
     tcp::socket m_socket;                       // socket
-    boost::shared_ptr<std::string> m_buffer;
+    boost::array<char, BUFFER_SIZE> m_buffer;
 };
 using session_ptr = boost::shared_ptr<Session>;
 

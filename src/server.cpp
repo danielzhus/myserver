@@ -19,10 +19,11 @@ void Server::accept_handler(const boost::system::error_code &error, session_ptr 
     if (!error)
     {
         // 连接成功
-        LOG_INFO(boost::format("[连接成功 %1%]") % session->getSocket().remote_endpoint().address());
+        LOG_INFO(boost::format("[连接成功 %1%:%2%]") % session->getSocket().remote_endpoint().address() % session->getSocket().remote_endpoint().port());
         
         // 连接成功快速返回不占用服务器资源
         wait_connect();
+        std::cout << 123 << std::endl;
         session->communicationInit();
     }
 }
