@@ -20,7 +20,7 @@ public:
     tcp::socket& getSocket();
 
     void communicationInit();
-    void read_handler(error_code ec, size_t bytes_transferred);
+    void read_handler(boost::system::error_code ec, size_t bytes_transferred);
 
 private:
     tcp::socket m_socket;                       // socket

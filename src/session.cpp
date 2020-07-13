@@ -16,7 +16,7 @@ void Session::communicationInit()
           boost::bind(&Session::read_handler, shared_from_this(), _1, _2));
 }
 
-void Session::read_handler(error_code ec, size_t bytes_transferred)
+void Session::read_handler(boost::system::error_code ec, size_t bytes_transferred)
 {
     if (ec)
     {
