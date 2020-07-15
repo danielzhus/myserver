@@ -6,18 +6,18 @@
 
 typedef boost::function<void(string)> bFunc;
 
-class FuncManager
+class ServerManager
 {
 public:
-    FuncManager() = default;
+    ServerManager() = default;
     // 禁止拷贝构造
-    FuncManager(const FuncManager &) = delete;
+    ServerManager(const ServerManager &) = delete;
     // 禁止move
-    FuncManager(const FuncManager &&) = delete;
+    ServerManager(const ServerManager &&) = delete;
     // 禁止复制
-    void operator=(const FuncManager &) = delete;
+    void operator=(const ServerManager &) = delete;
 
-    static FuncManager* instance();
+    static ServerManager* instance();
     void setFunc(string funcName, bFunc func);
 private:
     std::map<string, bFunc> m_funcs;            // 注册接口

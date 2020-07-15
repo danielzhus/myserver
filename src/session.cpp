@@ -1,6 +1,6 @@
 #include "session.h"
 #include "logSys.h"
-#include "funcManager.h"
+#include "serverManager.h"
 #include <boost/bind.hpp>
 #include <boost/format.hpp>
 
@@ -32,6 +32,6 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
         LOG(INFO, boost::format("Read data %1%; size = %2%") % req % bytes_transferred);
 
         // 处理请求
-        //FuncManager::instance()->handleReq(string);
+        //ServerManager::instance()->handleReq(string);
     }
 }

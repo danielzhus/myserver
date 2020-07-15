@@ -1,7 +1,7 @@
 #include "serverConfig.h"
 #include "logSys.h"
 #include "server.h"
-#include "funcManager.h"
+#include "serverManager.h"
 #include <boost/asio.hpp>
 #include <iostream>
 
