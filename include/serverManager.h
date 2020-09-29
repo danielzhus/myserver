@@ -4,6 +4,8 @@
 #include "server.h"
 #include<boost/function.hpp>
 
+class Session;
+using session_ptr = boost::shared_ptr<Session>;
 typedef boost::function<void(string)> bFunc;
 
 class ServerManager
@@ -19,6 +21,7 @@ public:
 
     static ServerManager* instance();
     void setFunc(string funcName, bFunc func);
+    void handleReq(string request, session_ptr session);
 private:
     std::map<string, bFunc> m_funcs;            // 注册接口
 };

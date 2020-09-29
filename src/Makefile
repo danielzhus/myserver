@@ -1,7 +1,7 @@
 TARGET= server
 CPP_SOURCE=$(wildcard *.cpp)
 OBJS 	= $(patsubst %.cpp,%.o, $(CPP_SOURCE)) 
-INCLUDE_PATH=-I ../include/
+INCLUDE_PATH=-I ../include/ -I ../libs/
 LIBRARY_PATH=-L ../libs/libs/
 LIBRARY=-lboost_system -llog4cxx -lCJsonObject
 

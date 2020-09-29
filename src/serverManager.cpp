@@ -1,4 +1,8 @@
 #include "serverManager.h"
+#include "session.h"
+#include "CJsonObject/CJsonObject.hpp"
+#include "logSys.h"
+#include "common.h"
 
 // 单例模式
 ServerManager* ServerManager::instance()
@@ -10,4 +14,34 @@ ServerManager* ServerManager::instance()
 void ServerManager::setFunc(string funcName, bFunc func)
 {
     m_funcs[funcName] = func;
+}
+
+void ServerManager::handleReq(string request, session_ptr session)
+{
+    neb::CJsonObject reqJson(request);
+    if (reqJson.IsEmpty())
+    {
+        LOG_INFO("request is empty");
+        return;
+    }
+
+    LOG_DEBUG(boost::format("request: %1%, origin: %2%") % request % getIpPortBySession(session));
+    string functionName;
+    if (reqJson.Get("function", functionName))
+    {
+        std::map<string, bFunc>::const_iterator iter = m_funcs.find(functionName);
+        if (m_funcs.end() != iter)
+        {
+            // 调用处理函数
+        }
+        else
+        {
+            LOG_INFO("not find function!");
+        }
+        
+    }
+    else
+    {
+        LOG_INFO("request function is empty!");
+    }    
 }

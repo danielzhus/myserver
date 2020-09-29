@@ -19,7 +19,7 @@ public:
     Session(boost::asio::io_service& ios);
     tcp::socket& getSocket();
 
-    void communicationInit();
+    void recvData();
     void read_handler(boost::system::error_code ec, size_t bytes_transferred);
 
 private:

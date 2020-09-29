@@ -2,8 +2,8 @@
 #include <logSys.h>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/format.hpp>
 #include <iostream>
+#include <common.h>
 
 Server::Server(string ip, int port):m_service(), m_endpoint(tcp::v4(), port), m_acceptor(m_service, m_endpoint){}
 
@@ -25,11 +25,11 @@ void Server::accept_handler(const boost::system::error_code &error, session_ptr 
     if (!error)
     {
         // 连接成功
-        LOG_INFO(boost::format("[连接成功 %1%:%2%]") % session->getSocket().remote_endpoint().address() % session->getSocket().remote_endpoint().port());
+        LOG_INFO(boost::format("[连接成功 %1%]") % getIpPortBySession(session));
         
         // 连接成功快速返回不占用服务器资源
         wait_connect();
-        session->communicationInit();
+        session->recvData();
     }
 }
 

@@ -11,6 +11,7 @@
 #include <log4cxx/basicconfigurator.h>
 #include <log4cxx/propertyconfigurator.h>
 #include <log4cxx/helpers/exception.h>
+#include <boost/format.hpp>
 
 enum LogLevel
 {
