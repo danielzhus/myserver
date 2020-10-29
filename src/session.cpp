@@ -4,7 +4,9 @@
 #include <boost/bind.hpp>
 #include <boost/format.hpp>
 
-Session::Session(boost::asio::io_service& ios):m_socket(ios), m_strand(new boost::asio::io_service::strand(ios)){}
+Session::Session(boost::asio::io_service& ios):m_socket(ios), 
+                                                m_handleStrand(new boost::asio::io_service::strand(ios)),
+                                                m_emitStrand(new boost::asio::io_service::strand(ios)){}
 
 tcp::socket& Session::getSocket()
 {
@@ -13,11 +15,12 @@ tcp::socket& Session::getSocket()
 
 void Session::recvData()
 {
-    m_socket.async_read_some(boost::asio::buffer(m_buffer),
-          boost::bind(&Session::read_handler, shared_from_this(), _1, _2));
+    boost::shared_ptr<boost::array<char, BUFFER_SIZE> > buffer(new boost::array<char, BUFFER_SIZE>());
+    m_socket.async_read_some(boost::asio::buffer(*buffer),
+          boost::bind(&Session::read_handler, shared_from_this(), _1, _2, buffer));
 }
 
-void Session::read_handler(boost::system::error_code ec, size_t bytes_transferred)
+void Session::read_handler(boost::system::error_code ec, size_t bytes_transferred, boost::shared_ptr<boost::array<char, BUFFER_SIZE> > buffer)
 {
     if (ec)
     {
@@ -28,11 +31,11 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
     {
         recvData();
         std::string req = "";
-        req = std::string(m_buffer.begin(), m_buffer.begin() + bytes_transferred - 1);
+        req = std::string(buffer->begin(), buffer->begin() + bytes_transferred - 1);
         LOG(INFO, boost::format("Read data %1%; size = %2%") % req % bytes_transferred);
 
         // 处理请求(抛出去)
-        m_strand->post(boost::bind(&ServerManager::handleReq, ServerManager::instance(), req, shared_from_this()));
+        m_handleStrand->post(boost::bind(&ServerManager::handleReq, ServerManager::instance(), req, shared_from_this()));
     }
 
 	recvData();
@@ -40,5 +43,15 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
 
 void Session::sendData(neb::CJsonObject response, neb::CJsonObject error)
 {
+    neb::CJsonObject result;
+    result.Add("response", response);
+    result.Add("error", error);
 
+    string resultStr = result.ToString();
+    boost::array<char, BUFFER_SIZE> buffer;
+    for (unsigned int i = 0; i < resultStr.size(); ++i)
+    {
+        buffer[i] = resultStr[i];
+    }
+    m_socket.write_some(boost::asio::buffer(buffer));
 }

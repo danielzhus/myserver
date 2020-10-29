@@ -21,14 +21,14 @@ public:
     tcp::socket& getSocket();
 
     void recvData();
-    void read_handler(boost::system::error_code ec, size_t bytes_transferred);
+    void read_handler(boost::system::error_code ec, size_t bytes_transferred, boost::shared_ptr<boost::array<char, BUFFER_SIZE> > buffer);
 
     void sendData(neb::CJsonObject response, neb::CJsonObject error);
 
 private:
     tcp::socket m_socket;                       // socket
-	boost::shared_ptr< boost::asio::io_service::strand >  m_strand;
-    boost::array<char, BUFFER_SIZE> m_buffer;
+	boost::shared_ptr< boost::asio::io_service::strand >  m_handleStrand;
+    boost::shared_ptr< boost::asio::io_service::strand >  m_emitStrand;
 };
 using session_ptr = boost::shared_ptr<Session>;
 
