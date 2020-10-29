@@ -23,7 +23,7 @@ public:
     void recvData();
     void read_handler(boost::system::error_code ec, size_t bytes_transferred, boost::shared_ptr<boost::array<char, BUFFER_SIZE> > buffer);
 
-    void sendData(neb::CJsonObject response, neb::CJsonObject error);
+    void sendData(const neb::CJsonObject& response, const neb::CJsonObject& error);
 
 private:
     tcp::socket m_socket;                       // socket

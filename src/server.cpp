@@ -4,6 +4,7 @@
 #include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <common.h>
+#include <calc.h>
 
 Server::Server(string ip, int port):m_service(), m_endpoint(tcp::v4(), port), m_acceptor(m_service, m_endpoint){}
 
@@ -11,6 +12,7 @@ void Server::init()
 {
     // 目前只做等待连接处理
     wait_connect();
+    regeist();
 }
 
 void Server::wait_connect()

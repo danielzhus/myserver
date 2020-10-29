@@ -10,6 +10,6 @@ class Session;
 using session_ptr = boost::shared_ptr<Session>;
 
 std::string getIpPortBySession(const session_ptr session);
-void genErrorMsg(int errorId, std::string errorMsg, neb::CJsonObject res);
+void genErrorMsg(int errorId, std::string errorMsg, neb::CJsonObject& res);
 
 #endif // _COMMON_H_

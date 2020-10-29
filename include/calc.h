@@ -7,22 +7,15 @@
 class Session;
 using session_ptr = boost::shared_ptr<Session>;
 
-void regist();
+void regeist();
 void _add(neb::CJsonObject param, session_ptr session);
 void _sub(neb::CJsonObject param, session_ptr session);
 void _mul(neb::CJsonObject param, session_ptr session);
 void _div(neb::CJsonObject param, session_ptr session);
 
-template <typename T>
-T add(T value1, T value2);
-
-template <typename T>
-T sub(T value1, T value2);
-
-template <typename T>
-T mul(T value1, T value2);
-
-template <typename T>
- T div(T value1, T value2);
+double add(double value1, double value2);
+double sub(double value1, double value2);
+double mul(double value1, double value2);
+double div(double value1, double value2);
 
 #endif // _CALC_H_

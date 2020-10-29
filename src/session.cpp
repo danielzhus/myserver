@@ -24,14 +24,14 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
 {
     if (ec)
     {
-        LOG(ERROR, boost::format("Read error %1%") % ec.message());
+        LOG(TRACE, boost::format("Read error %1%") % ec.message());
         return;
     }
     else // 读到信息
     {
         recvData();
         std::string req = "";
-        req = std::string(buffer->begin(), buffer->begin() + bytes_transferred - 1);
+        req = std::string(buffer->begin(), buffer->begin() + bytes_transferred);
         LOG(INFO, boost::format("Read data %1%; size = %2%") % req % bytes_transferred);
 
         // 处理请求(抛出去)
@@ -41,17 +41,12 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
 	recvData();
 }
 
-void Session::sendData(neb::CJsonObject response, neb::CJsonObject error)
+void Session::sendData(const neb::CJsonObject& response, const neb::CJsonObject& error)
 {
     neb::CJsonObject result;
     result.Add("response", response);
     result.Add("error", error);
 
     string resultStr = result.ToString();
-    boost::array<char, BUFFER_SIZE> buffer;
-    for (unsigned int i = 0; i < resultStr.size(); ++i)
-    {
-        buffer[i] = resultStr[i];
-    }
-    m_socket.write_some(boost::asio::buffer(buffer));
+    m_socket.write_some(boost::asio::buffer(resultStr, resultStr.size()));
 }

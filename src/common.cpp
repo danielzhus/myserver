@@ -20,7 +20,7 @@ string getIpPortBySession(const session_ptr session)
     return "";
 }
 
-void genErrorMsg(int errorId, std::string errorMsg, neb::CJsonObject res)
+void genErrorMsg(int errorId, std::string errorMsg, neb::CJsonObject& res)
 {
     res.Clear();
     res.Add("ErrorID", errorId);
