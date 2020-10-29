@@ -47,6 +47,7 @@ void _sub(neb::CJsonObject param, session_ptr session)
 	resp.Add("sub", ret);
 	session->sendData(resp, neb::CJsonObject());
 }
+
 void _mul(neb::CJsonObject param, session_ptr session)
 {
 		int paramSize = param.GetArraySize();
