@@ -3,10 +3,11 @@
 
 #include "server.h"
 #include<boost/function.hpp>
+#include "CJsonObject/CJsonObject.hpp"
 
 class Session;
 using session_ptr = boost::shared_ptr<Session>;
-typedef boost::function<void(string)> bFunc;
+typedef boost::function<void(neb::CJsonObject, session_ptr)> bFunc;
 
 class ServerManager
 {

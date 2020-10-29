@@ -4,7 +4,7 @@
 #include <boost/bind.hpp>
 #include <boost/format.hpp>
 
-Session::Session(boost::asio::io_service& ios):m_socket(ios){}
+Session::Session(boost::asio::io_service& ios):m_socket(ios), m_strand(new boost::asio::io_service::strand(ios)){}
 
 tcp::socket& Session::getSocket()
 {
@@ -31,7 +31,14 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
         req = std::string(m_buffer.begin(), m_buffer.begin() + bytes_transferred - 1);
         LOG(INFO, boost::format("Read data %1%; size = %2%") % req % bytes_transferred);
 
-        // 处理请求
-        ServerManager::instance()->handleReq(req, shared_from_this());
+        // 处理请求(抛出去)
+        m_strand->post(boost::bind(&ServerManager::handleReq, ServerManager::instance(), req, shared_from_this()));
     }
+
+	recvData();
+}
+
+void Session::sendData(neb::CJsonObject response, neb::CJsonObject error)
+{
+
 }

@@ -1,21 +1,28 @@
 #ifndef _CALC_H_
 #define _CALC_H_
 // 测试服务基本运算
+#include <boost/shared_ptr.hpp>
+#include "CJsonObject/CJsonObject.hpp"
+
+class Session;
+using session_ptr = boost::shared_ptr<Session>;
+
+void regist();
+void _add(neb::CJsonObject param, session_ptr session);
+void _sub(neb::CJsonObject param, session_ptr session);
+void _mul(neb::CJsonObject param, session_ptr session);
+void _div(neb::CJsonObject param, session_ptr session);
+
 template <typename T>
-class Calc
-{
-public:
-    // 解析并返回结果
-    void _add(string req, string resp);
-    void _sub(string req, string resp);
-    void _mul(string req, string resp);
-    void _div(string req, string resp);
-private:
-    // 实现
-    T add(T value1, T value2);
-    T sub(T value1, T value2);
-    T mul(T value1, T value2);
-    T div(T value1, T value2);
-};
+T add(T value1, T value2);
+
+template <typename T>
+T sub(T value1, T value2);
+
+template <typename T>
+T mul(T value1, T value2);
+
+template <typename T>
+ T div(T value1, T value2);
 
 #endif // _CALC_H_

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "session.h"
 #include "stdlib.h"
+#include "CJsonObject/CJsonObject.hpp"
 
 string getIpPortBySession(const session_ptr session)
 {
@@ -17,4 +18,11 @@ string getIpPortBySession(const session_ptr session)
         return "[" + ip.to_string() + "]:" + strPort;
     }
     return "";
+}
+
+void genErrorMsg(int errorId, std::string errorMsg, neb::CJsonObject res)
+{
+    res.Clear();
+    res.Add("ErrorID", errorId);
+    res.Add("ErrorMsg", errorMsg);
 }
