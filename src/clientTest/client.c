@@ -10,14 +10,17 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/time.h>
  
 #define SERVER_PORT 8888
+typedef long long int64;
  
 int main(int argc, char* argv[]) 
 {
-    if (argc != 2)
+    if (argc != 3)
     {
-        printf("./client fileName");
+        printf("./client fileName testTimes\n");
+		return -1;
     }
     //客户端只需要一个套接字文件描述符，用于和服务器通信
     int clientSocket;
@@ -57,16 +60,51 @@ int main(int argc, char* argv[])
     }
     fclose(reqFile);
 
-    printf("发送消息:");
-    printf("\n");
-    send(clientSocket, sendbuf, strlen(sendbuf), 0);
+	int times = atoi(argv[2]);
+	int count = 0;
+	struct timeval start, end;
+	int64 totalTime = 0;
+	int64 total, avg, max, min;
+	total = avg = max = min = 0;
+	while(times--)
+	{
+    	printf("发送消息:");
+    	printf("\n");
 
-    printf("读取消息:");
-    recvbuf[0] = '\0';
-    iDataNum = recv(clientSocket, recvbuf, 200, 0);
-    recvbuf[iDataNum] = '\0';
-    printf("%s\n", recvbuf);
- 
+		gettimeofday(&start, NULL);
+    	send(clientSocket, sendbuf, strlen(sendbuf), 0);
+		count++;
+
+    	printf("读取消息:");
+    	recvbuf[0] = '\0';
+    	iDataNum = recv(clientSocket, recvbuf, 200, 0);
+		gettimeofday(&end, NULL);
+		totalTime = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec);
+		total += totalTime;
+		avg = total / count;
+		if (1 == count)
+		{
+			max = totalTime;
+			min = totalTime;
+		}
+		else
+		{
+			if (max < totalTime)
+			{
+				max = totalTime;
+			}
+
+			if (min > totalTime)
+			{
+				min = totalTime;
+			}
+		}
+
+    	recvbuf[iDataNum] = '\0';
+    	printf("%s\n", recvbuf);
+	}
+
+	printf("请求%d次; 平均时间%lld us; 最大时间%lld us; 最小时间%lld us\n", count, avg, max, min);
     close(clientSocket);
     return 0;
  

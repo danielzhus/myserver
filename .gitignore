@@ -2,3 +2,6 @@
 src/*.o
 bin/*
 log/*
+libs/libs/*
+tags
+tags.lock
