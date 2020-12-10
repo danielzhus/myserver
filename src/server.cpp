@@ -5,8 +5,9 @@
 #include <iostream>
 #include <common.h>
 #include <calc.h>
+#include <serverConfig.h>
 
-Server::Server(string ip, int port):m_service(), m_endpoint(tcp::v4(), port), m_acceptor(m_service, m_endpoint){}
+Server::Server(string ip, int port):m_service(), m_endpoint(tcp::v4(), port), m_acceptor(m_service, m_endpoint), m_work(new boost::asio::io_service::work(m_service)) {}
 
 void Server::init()
 {
@@ -37,5 +38,11 @@ void Server::accept_handler(const boost::system::error_code &error, session_ptr 
 
 void Server::run()
 {
-    m_service.run();
+    int pthreadNum = GlobalConfig::instance().getPthreadNum();	
+    for (int i = 0; i < pthreadNum; ++i)
+	{
+		boost::system::error_code error;
+		m_threads.create_thread(boost::bind(&boost::asio::io_service::run, boost::ref(m_service), error));
+	}
+	m_threads.join_all();
 }

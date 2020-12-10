@@ -3,6 +3,7 @@
 
 #include "session.h"
 #include <boost/asio.hpp>
+#include <boost/thread/thread.hpp>
 #include <map>
 
 using namespace std;
@@ -32,6 +33,8 @@ class Server
     boost::asio::io_service m_service;          // 主服务
     tcp::endpoint m_endpoint;                   // 配置监听端口
     tcp::acceptor m_acceptor;                   // 端口监听器
+	boost::shared_ptr< boost::asio::io_service::work > m_work;
+	boost::thread_group m_threads;			// 线程池
 };
 
 #endif // _SERVER_H_
