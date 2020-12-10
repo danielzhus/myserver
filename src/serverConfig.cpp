@@ -15,7 +15,6 @@ GlobalConfig& GlobalConfig::instance()
 
 void GlobalConfig::initConfig(const std::string& configFileName)
 {
-    LOG_INFO("initConfig");
     std::string fileName;
     if(configFileName.empty())
     {
@@ -33,10 +32,12 @@ void GlobalConfig::initConfig(const std::string& configFileName)
         std::cout << "文件打开失败" << std::endl;
     }
 
+    LOG_INFO("initConfig");
     // 按行读取配置
     std::string buf;
     while(getline(configFile, buf))
     {
+    	LOG_INFO(boost::format("%1%") % buf);
         size_t index = buf.find(":");
         if (index == string::npos)
         {

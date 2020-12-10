@@ -17,6 +17,7 @@ class Session : public boost::enable_shared_from_this<Session>
 {   
 public:
     Session() = delete;
+    virtual ~Session();
     Session(boost::asio::io_service& ios);
     tcp::socket& getSocket();
 

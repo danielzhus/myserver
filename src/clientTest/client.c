@@ -57,16 +57,22 @@ int main(int argc, char* argv[])
     }
     fclose(reqFile);
 
-    printf("发送消息:");
-    printf("\n");
-    send(clientSocket, sendbuf, strlen(sendbuf), 0);
+    int i = 10;
+    while(i--)
+    {
+        printf("发送消息:");
+        printf("\n");
+        send(clientSocket, sendbuf, strlen(sendbuf), 0);
 
-    printf("读取消息:");
-    recvbuf[0] = '\0';
-    iDataNum = recv(clientSocket, recvbuf, 200, 0);
-    recvbuf[iDataNum] = '\0';
-    printf("%s\n", recvbuf);
- 
+        printf("读取消息:");
+        recvbuf[0] = '\0';
+        iDataNum = recv(clientSocket, recvbuf, 200, 0);
+        recvbuf[iDataNum] = '\0';
+        printf("%s\n", recvbuf);
+        //sleep(1);
+    }
+    while(1);
+
     close(clientSocket);
     return 0;
  

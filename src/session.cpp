@@ -8,6 +8,11 @@ Session::Session(boost::asio::io_service& ios):m_socket(ios),
                                                 m_handleStrand(new boost::asio::io_service::strand(ios)),
                                                 m_emitStrand(new boost::asio::io_service::strand(ios)){}
 
+Session::~Session()
+{
+    LOG(TRACE, boost::format("clear Session"));
+}
+
 tcp::socket& Session::getSocket()
 {
     return m_socket;
@@ -29,7 +34,6 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
     }
     else // 读到信息
     {
-        recvData();
         std::string req = "";
         req = std::string(buffer->begin(), buffer->begin() + bytes_transferred);
         LOG(INFO, boost::format("Read data %1%; size = %2%") % req % bytes_transferred);
@@ -37,8 +41,7 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
         // 处理请求(抛出去)
         m_handleStrand->post(boost::bind(&ServerManager::handleReq, ServerManager::instance(), req, shared_from_this()));
     }
-
-	recvData();
+    recvData();
 }
 
 void Session::sendData(const neb::CJsonObject& response, const neb::CJsonObject& error)

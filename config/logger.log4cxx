@@ -9,7 +9,7 @@ log4j.appender.fa=org.apache.log4j.FileAppender
 log4j.appender.fa.File=./log/server.log
 log4j.appender.fa.Append=false
 log4j.appender.fa.layout=org.apache.log4j.PatternLayout
-log4j.appender.fa.layout.ConversionPattern=%d[%t] %-5p %.16c - %m%n
+log4j.appender.fa.layout.ConversionPattern=%d [%p] [%t] %m%n
 
 #对Appender ca进行设置：这是一个控制台类型的Appender
 #输出格式（layout）为PatternLayout

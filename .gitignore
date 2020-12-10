@@ -2,3 +2,8 @@
 src/*.o
 bin/*
 log/*
+src/clientTest/client
+
+libs/libs/*
+tags
+tags.lock
