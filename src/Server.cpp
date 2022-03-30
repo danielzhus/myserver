@@ -1,11 +1,11 @@
-#include "server.h"
-#include <logSys.h>
+#include "Server.h"
+#include <LogSys.h>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 #include <iostream>
-#include <common.h>
-#include <calc.h>
-#include <serverConfig.h>
+#include <Common.h>
+#include <Calc.h>
+#include <ServerConfig.h>
 
 Server::Server(string ip, int port):m_service(), m_endpoint(tcp::v4(), port), m_acceptor(m_service, m_endpoint), m_work(new boost::asio::io_service::work(m_service)) {}
 

@@ -1,5 +1,5 @@
-#include "serverConfig.h"
-#include "logSys.h"
+#include "ServerConfig.h"
+#include "LogSys.h"
 #include <iostream>
 #include <fstream>
 

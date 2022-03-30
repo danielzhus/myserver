@@ -1,8 +1,8 @@
-#include "serverManager.h"
-#include "session.h"
+#include "ServerManager.h"
+#include "Session.h"
 #include "CJsonObject/CJsonObject.hpp"
-#include "logSys.h"
-#include "common.h"
+#include "LogSys.h"
+#include "Common.h"
 
 // 单例模式
 ServerManager* ServerManager::instance()

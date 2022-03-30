@@ -1,7 +1,7 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_
 
-#include "session.h"
+#include "Session.h"
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
 #include <map>

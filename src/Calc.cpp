@@ -1,6 +1,6 @@
-#include "calc.h"
-#include "serverManager.h"
-#include "logSys.h"
+#include "Calc.h"
+#include "ServerManager.h"
+#include "LogSys.h"
 
 void regeist()
 {

@@ -1,6 +1,6 @@
-#include "session.h"
-#include "logSys.h"
-#include "serverManager.h"
+#include "Session.h"
+#include "LogSys.h"
+#include "ServerManager.h"
 #include <boost/bind.hpp>
 #include <boost/format.hpp>
 

@@ -1,4 +1,4 @@
-#include <logSys.h>
+#include <LogSys.h>
 
 void initSysLog()
 {

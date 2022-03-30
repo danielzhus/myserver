@@ -1,7 +1,7 @@
 #ifndef _FUNC_MANAGER_H_
 #define _FUNC_MANAGER_H_
 
-#include "server.h"
+#include "Server.h"
 #include<boost/function.hpp>
 #include "CJsonObject/CJsonObject.hpp"
 
