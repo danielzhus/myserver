@@ -1,5 +1,5 @@
 .vscode/*
-src/*.o
+obj/*.o
 bin/*
 log/*
 src/clientTest/client

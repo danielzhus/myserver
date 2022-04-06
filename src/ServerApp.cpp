@@ -10,13 +10,19 @@ using boost::asio::ip::tcp;
 
 int main(int argc, char *argv[])
 {
-    // 初始化日志
+    if (argc != 2)
+    {
+        cout << "Tip: ./server ../config/config" << endl;
+        return 0;
+    }
+
+    // 初始化日志系统
     initSysLog();
     LOG(INFO, "*****************server init*****************");
     
     // 初始化全局配置
     GlobalConfig& gc = GlobalConfig::instance();
-    gc.initConfig("./config/config");
+    gc.initConfig(argv[1]);
 
     // 配置服务器
     Server server(gc.getIp(), gc.getPort());

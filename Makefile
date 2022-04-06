@@ -1,6 +1,7 @@
 # 指定源码路径和输出路径
 export BUILD_HOME_DIR = $(shell pwd)
 export SOURCE_PATH=$(BUILD_HOME_DIR)/src
+export OBJ_PATH=$(BUILD_HOME_DIR)/obj/
 export BUILD_OUT_DIR=$(BUILD_HOME_DIR)/bin
 
 # 指定编译器参数
