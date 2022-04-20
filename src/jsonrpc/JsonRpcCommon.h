@@ -1,0 +1,4 @@
+#ifndef JSON_RPC_COMMON_H
+#define JSON_RPC_COMMON_H
+
+#endif // JSON_RPC_COMMON_H
