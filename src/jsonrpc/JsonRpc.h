@@ -1,7 +1,6 @@
 #ifndef JSON_RPC_H
 #define JSON_RPC_H
-#include <CJsonObject/CJsonObject.hpp>
-#include <ErrorDef.h>
+#include "ErrorDef.h"
 namespace jsonrpc
 {
     /**
@@ -19,6 +18,7 @@ namespace jsonrpc
     protected:
         int                 m_nJsonRpcVersion;
         int                 m_nSeq;
+        JError              m_error;
     };
 
     /**
@@ -56,13 +56,11 @@ namespace jsonrpc
         JsonRpcResponse();
         JsonRpcResponse(int seq, const neb::CJsonObject& result, const JError& error, int version = 2);
         virtual ~JsonRpcResponse();
-        void setResult(const neb::CJsonObject& result);
-        void setError(const JError& error);
-        void setSeq(int seq);
+        void setResult(const neb::CJsonObject& result, int seq);
+        void setError(const JError& error, int seq);
         virtual std::string toJsonString() = 0;
     private:
         neb::CJsonObject    m_result;
-        JError              m_error;
     };
 }
 

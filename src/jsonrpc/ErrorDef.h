@@ -1,7 +1,7 @@
 #ifndef _ERROR_DEF_H_
 #define _ERROR_DEF_H_
+#include "utils/type.h"
 #include <string>
-#include <utils/type.h>
 #include <vector>
 
 enum {
@@ -12,8 +12,24 @@ enum {
     JSON_RPC_ERROR_INTERNAL = -32603,           // 内部错误
 };
 
-struct JError
+class JError
 {
+public:
+    void JError():m_nErrorID(0){}
+    void setErrorID(r_int32 errorID) { m_nErrorID = errorID }
+    void setErrorMsg(std::string errorMsg) { m_nErrorMsg = errorMsg }
+    void setErrorData(const std::vector<char>&& errorData) { m_vData = errorData }
+
+    bool isSuccess()
+    {
+        return m_nErrorID == 0;
+    }
+
+    bool operator!()
+    {
+        return !isSuccess();
+    }
+
     r_int32             m_nErrorID;     // 错误ID（上面是默认的几种错误）
     std::string         m_strErrorMsg;  // 错误信息
     std::vector<char>   m_vData;        // 错误附带数据
