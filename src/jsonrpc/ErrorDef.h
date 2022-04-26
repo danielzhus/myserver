@@ -15,10 +15,10 @@ enum {
 class JError
 {
 public:
-    void JError():m_nErrorID(0){}
-    void setErrorID(r_int32 errorID) { m_nErrorID = errorID }
-    void setErrorMsg(std::string errorMsg) { m_nErrorMsg = errorMsg }
-    void setErrorData(const std::vector<char>&& errorData) { m_vData = errorData }
+    JError():m_nErrorID(0){}
+    void setErrorID(r_int32 errorID) { m_nErrorID = errorID; }
+    void setErrorMsg(std::string errorMsg) { m_strErrorMsg = errorMsg; }
+    void setErrorData(const std::vector<char>&& errorData) { m_vData = errorData; }
 
     bool isSuccess()
     {
@@ -28,6 +28,12 @@ public:
     bool operator!()
     {
         return !isSuccess();
+    }
+
+    void operator=(const JError& error)
+    {
+        this->m_nErrorID = error.m_nErrorID;
+        this->m_strErrorMsg = error.m_strErrorMsg;
     }
 
     r_int32             m_nErrorID;     // 错误ID（上面是默认的几种错误）

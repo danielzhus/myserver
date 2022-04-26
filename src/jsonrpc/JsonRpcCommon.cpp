@@ -1,4 +1,5 @@
 #include "JsonRpcCommon.h"
+#include "ErrorDef.h"
 namespace jsonrpc
 {
     void genErrorJson(const JError& error, neb::CJsonObject& res)
@@ -13,8 +14,8 @@ namespace jsonrpc
         for (auto v : error.m_vData)
         {
             sprintf(oneByte, "%c%c", hex[v >> 4], hex[v & 0xf]);
-            errorData += string(oneByte);
+            errorData += std::string(oneByte);
         }
-        res.Add("data", errorData)
+        res.Add("data", errorData);
     }
 }

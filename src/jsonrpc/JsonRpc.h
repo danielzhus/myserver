@@ -1,6 +1,8 @@
 #ifndef JSON_RPC_H
 #define JSON_RPC_H
 #include "ErrorDef.h"
+#include "CJsonObject/CJsonObject.hpp"
+
 namespace jsonrpc
 {
     /**
@@ -9,6 +11,8 @@ namespace jsonrpc
     class IJsonRpc
     {
     public:
+        IJsonRpc(){}
+        IJsonRpc(int rpcVersion, int seq):m_nJsonRpcVersion(rpcVersion), m_nSeq(seq) {}
         /**
          * @brief 纯虚函数，将结构直接转换成json串
          * 
@@ -31,13 +35,14 @@ namespace jsonrpc
          * @brief 提供多种构造方式，可以通过json，CJsonObject以及拷贝构造 
          */
         JsonRpcRequest(const std::string& json);
-        JsonRpcRequest(const neb::CJsonObject& rpcData);
+        JsonRpcRequest(neb::CJsonObject& rpcData);
         JsonRpcRequest(const JsonRpcRequest& rpcData);
 
-        virtual std::string toJsonString() = 0;
+        virtual std::string toJsonString();
 
         virtual ~JsonRpcRequest();
     private:
+        void JsonToRequest(neb::CJsonObject& rpcData);
         std::string         m_strMethod;
         neb::CJsonObject    m_params;
     };
@@ -58,7 +63,7 @@ namespace jsonrpc
         virtual ~JsonRpcResponse();
         void setResult(const neb::CJsonObject& result, int seq);
         void setError(const JError& error, int seq);
-        virtual std::string toJsonString() = 0;
+        virtual std::string toJsonString();
     private:
         neb::CJsonObject    m_result;
     };
