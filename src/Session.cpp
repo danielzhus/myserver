@@ -3,6 +3,7 @@
 #include "ServerManager.h"
 #include <boost/bind.hpp>
 #include <boost/format.hpp>
+#include "jsonrpc/JsonRpc.h"
 
 Session::Session(boost::asio::io_service& ios):m_socket(ios), 
                                                 m_handleStrand(new boost::asio::io_service::strand(ios)),
@@ -44,12 +45,8 @@ void Session::read_handler(boost::system::error_code ec, size_t bytes_transferre
     recvData();
 }
 
-void Session::sendData(const neb::CJsonObject& response, const neb::CJsonObject& error)
+void Session::sendData(const jsonrpc::JsonRpcResponse& response)
 {
-    neb::CJsonObject result;
-    result.Add("response", response);
-    result.Add("error", error);
-
-    string resultStr = result.ToString();
+    const string& resultStr = response.toJsonString();
     m_socket.write_some(boost::asio::buffer(resultStr, resultStr.size()));
 }

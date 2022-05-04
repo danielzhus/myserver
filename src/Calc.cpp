@@ -1,4 +1,5 @@
 #include "Calc.h"
+#include "jsonrpc/JsonRpc.h"
 #include "ServerManager.h"
 #include "utils/LogSys.h"
 
@@ -10,8 +11,9 @@ void regeist()
 	ServerManager::instance()->setFunc("div", _div);
 }
 
-void _add(neb::CJsonObject param, session_ptr session)
+void _add(request_ptr request, session_ptr session)
 {
+	const neb::CJsonObject& param = request->getParams();
 	int paramSize = param.GetArraySize();
 	if (paramSize != 2)
 	{
@@ -26,11 +28,14 @@ void _add(neb::CJsonObject param, session_ptr session)
 	double ret = add(summand, addend);
 	neb::CJsonObject resp;
 	resp.Add("sum", ret);
-	session->sendData(resp, neb::CJsonObject());
+	
+	jsonrpc::JsonRpcResponse response(request->getSeq(), resp);
+	session->sendData(response);
 }
 
-void _sub(neb::CJsonObject param, session_ptr session)
+void _sub(request_ptr request, session_ptr session)
 {
+	const neb::CJsonObject& param = request->getParams();
 	int paramSize = param.GetArraySize();
 	if (paramSize != 2)
 	{
@@ -45,12 +50,15 @@ void _sub(neb::CJsonObject param, session_ptr session)
 	double ret = sub(summand, addend);
 	neb::CJsonObject resp;
 	resp.Add("sub", ret);
-	session->sendData(resp, neb::CJsonObject());
+
+	jsonrpc::JsonRpcResponse response(request->getSeq(), resp);
+	session->sendData(response);
 }
 
-void _mul(neb::CJsonObject param, session_ptr session)
+void _mul(request_ptr request, session_ptr session)
 {
-		int paramSize = param.GetArraySize();
+	const neb::CJsonObject& param = request->getParams();
+	int paramSize = param.GetArraySize();
 	if (paramSize != 2)
 	{
 		LOG_ERROR("参数格式不正确");
@@ -64,11 +72,14 @@ void _mul(neb::CJsonObject param, session_ptr session)
 	double ret = mul(summand, addend);
 	neb::CJsonObject resp;
 	resp.Add("mul", ret);
-	session->sendData(resp, neb::CJsonObject());
+
+	jsonrpc::JsonRpcResponse response(request->getSeq(), resp);
+	session->sendData(response);
 }
 
-void _div(neb::CJsonObject param, session_ptr session)
+void _div(request_ptr request, session_ptr session)
 {
+	const neb::CJsonObject& param = request->getParams();
 	int paramSize = param.GetArraySize();
 	if (paramSize != 2)
 	{
@@ -83,7 +94,9 @@ void _div(neb::CJsonObject param, session_ptr session)
 	double ret = div(summand, addend);
 	neb::CJsonObject resp;
 	resp.Add("div", ret);
-	session->sendData(resp, neb::CJsonObject());
+
+	jsonrpc::JsonRpcResponse response(request->getSeq(), resp);
+	session->sendData(response);
 }
 
 double add(double value1, double value2)

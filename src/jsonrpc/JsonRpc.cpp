@@ -39,15 +39,16 @@ namespace jsonrpc
             return;
         }
 
-        if ((!rpcData.IsNull("jsonrpc") || !rpcData.Get("jsonrpc", m_nJsonRpcVersion)) ||
-            (!rpcData.IsNull("method") || !rpcData.Get("method", m_strMethod)) ||
-            (!rpcData.IsNull("params") || !rpcData.Get("params", m_params)) ||
-            (!rpcData.IsNull("id") || !rpcData.Get("id", m_nSeq)))
+        if (rpcData.IsNull("jsonrpc") || rpcData.IsNull("method") || rpcData.IsNull("params") || rpcData.IsNull("id"))
         {
             m_error.m_nErrorID = JSON_RPC_ERROR_PARSE_ERROR;
             m_error.m_strErrorMsg = "jsonrpc 格式错误";
             return;
         }
+        rpcData.Get("jsonrpc", m_nJsonRpcVersion);
+        rpcData.Get("method", m_strMethod);
+        rpcData.Get("params", m_params);
+        rpcData.Get("id", m_nSeq);
     }
 
     JsonRpcRequest::~JsonRpcRequest()
@@ -55,7 +56,17 @@ namespace jsonrpc
         
     }
 
-    std::string JsonRpcRequest::toJsonString()
+    std::string JsonRpcRequest::getMethodName() const
+    {
+        return m_strMethod;
+    }
+
+    const neb::CJsonObject& JsonRpcRequest::getParams() const
+    {
+        return m_params;
+    }
+
+    std::string JsonRpcRequest::toJsonString() const
     {
         neb::CJsonObject reqJson;
         reqJson.Add("jsonrpc", m_nJsonRpcVersion);
@@ -70,7 +81,7 @@ namespace jsonrpc
         return "";
     }
 
-    JsonRpcResponse::JsonRpcResponse() : IJsonRpc(2, 0)
+    JsonRpcResponse::JsonRpcResponse() : JsonRpc(2, 0)
     {
     }
 
@@ -79,7 +90,7 @@ namespace jsonrpc
     // 在派生类构造函数初始化列表中调用父类初始化函数
     // 当然也可以在函数体中赋值，但是这就等于初始化了一次，又赋值了一次
     JsonRpcResponse::JsonRpcResponse(int seq, const neb::CJsonObject& result, const JError& error, int version) 
-                                    : IJsonRpc(version, seq),
+                                    : JsonRpc(version, seq),
                                     m_result(result)
                         
     {
@@ -106,7 +117,7 @@ namespace jsonrpc
         m_nSeq = seq;
     }
 
-    std::string JsonRpcResponse::toJsonString()
+    std::string JsonRpcResponse::toJsonString() const
     {
         neb::CJsonObject respJson;
         respJson.Add("jsonrpc", m_nJsonRpcVersion);

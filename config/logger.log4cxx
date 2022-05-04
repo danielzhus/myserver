@@ -6,8 +6,8 @@ log4j.rootLogger=INFO, fa
 #输出方式（Append）为覆盖方式，
 #输出格式（layout）为PatternLayout
 log4j.appender.fa=org.apache.log4j.FileAppender
-log4j.appender.fa.File=./log/server.log
-log4j.appender.fa.Append=false
+log4j.appender.fa.File=./server.log
+log4j.appender.fa.Append=true
 log4j.appender.fa.layout=org.apache.log4j.PatternLayout
 log4j.appender.fa.layout.ConversionPattern=%d [%p] [%t] %m%n
 

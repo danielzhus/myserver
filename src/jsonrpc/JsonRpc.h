@@ -8,17 +8,21 @@ namespace jsonrpc
     /**
      * @brief jsonRpc接口类，维护版本号和seq以及一些通用操作
      */
-    class IJsonRpc
+    class JsonRpc
     {
     public:
-        IJsonRpc(){}
-        IJsonRpc(int rpcVersion, int seq):m_nJsonRpcVersion(rpcVersion), m_nSeq(seq) {}
+        JsonRpc(){}
+        JsonRpc(int rpcVersion, int seq):m_nJsonRpcVersion(rpcVersion), m_nSeq(seq) {}
+
+        JError getError() { return m_error; }
         /**
          * @brief 纯虚函数，将结构直接转换成json串
          * 
          * @return json串
          */
-        virtual std::string toJsonString() = 0;
+
+        int getSeq() { return m_nSeq; }
+        virtual std::string toJsonString() const = 0;
     protected:
         int                 m_nJsonRpcVersion;
         int                 m_nSeq;
@@ -28,7 +32,7 @@ namespace jsonrpc
     /**
      * @brief rpc请求结构
      */
-    class JsonRpcRequest : public IJsonRpc
+    class JsonRpcRequest : public JsonRpc
     {
     public:
         /**
@@ -38,7 +42,10 @@ namespace jsonrpc
         JsonRpcRequest(neb::CJsonObject& rpcData);
         JsonRpcRequest(const JsonRpcRequest& rpcData);
 
-        virtual std::string toJsonString();
+        std::string getMethodName() const;
+        const neb::CJsonObject& getParams() const;
+
+        virtual std::string toJsonString() const;
 
         virtual ~JsonRpcRequest();
     private:
@@ -51,7 +58,7 @@ namespace jsonrpc
      * @brief rpc响应结构
      * 响应对象必须包含 result 或 error 字段，但两个字段不能同时存在
      */
-    class JsonRpcResponse : public IJsonRpc
+    class JsonRpcResponse : public JsonRpc
     {
     public:
         /**
@@ -59,11 +66,11 @@ namespace jsonrpc
          * 
          */
         JsonRpcResponse();
-        JsonRpcResponse(int seq, const neb::CJsonObject& result, const JError& error, int version = 2);
+        JsonRpcResponse(int seq, const neb::CJsonObject& result, const JError& error = JError(), int version = 2);
         virtual ~JsonRpcResponse();
         void setResult(const neb::CJsonObject& result, int seq);
         void setError(const JError& error, int seq);
-        virtual std::string toJsonString();
+        virtual std::string toJsonString() const;
     private:
         neb::CJsonObject    m_result;
     };

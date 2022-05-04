@@ -28,8 +28,7 @@ void Server::accept_handler(const boost::system::error_code &error, session_ptr 
     if (!error)
     {
         // 连接成功
-        LOG_INFO(boost::format("[连接成功 %1%]") % getIpPortBySession(session));
-        
+        LOG_INFO(FMT("[连接成功 {}]", getIpPortBySession(session)));
         // 连接成功快速返回不占用服务器资源
         wait_connect();
         session->recvData();

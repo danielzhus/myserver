@@ -20,12 +20,12 @@ public:
     void setErrorMsg(std::string errorMsg) { m_strErrorMsg = errorMsg; }
     void setErrorData(const std::vector<char>&& errorData) { m_vData = errorData; }
 
-    bool isSuccess()
+    bool isSuccess() const
     {
         return m_nErrorID == 0;
     }
 
-    bool operator!()
+    bool operator!() const
     {
         return !isSuccess();
     }

@@ -37,7 +37,7 @@ void GlobalConfig::initConfig(const std::string& configFileName)
     std::string buf;
     while(getline(configFile, buf))
     {
-    	LOG_INFO(boost::format("%1%") % buf);
+    	LOG_INFO(FMT("{}", buf));
         size_t index = buf.find(":");
         if (index == string::npos)
         {

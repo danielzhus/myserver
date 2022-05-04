@@ -11,7 +11,7 @@
 #include <log4cxx/basicconfigurator.h>
 #include <log4cxx/propertyconfigurator.h>
 #include <log4cxx/helpers/exception.h>
-#include <boost/format.hpp>
+#include <fmt/format.h>
 
 enum LogLevel
 {
@@ -32,6 +32,9 @@ static const int LOG4CXX_LEVEL_INT[_C_LEVEL_COUNT] = {
     log4cxx::Level::ERROR_INT,
     log4cxx::Level::FATAL_INT,
 };
+
+// 使用FMT替代原fmt函数名
+#define FMT fmt::format
 
 void initSysLog();
 

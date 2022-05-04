@@ -2,12 +2,18 @@
 #define _FUNC_MANAGER_H_
 
 #include "Server.h"
-#include<boost/function.hpp>
+#include <functional>
 #include "CJsonObject/CJsonObject.hpp"
 
+namespace jsonrpc
+{
+    class JsonRpcRequest;
+}
+
 class Session;
+using request_ptr = std::shared_ptr<jsonrpc::JsonRpcRequest>;
 using session_ptr = boost::shared_ptr<Session>;
-typedef boost::function<void(neb::CJsonObject, session_ptr)> bFunc;
+typedef std::function<void(request_ptr, session_ptr)> bFunc;
 
 class ServerManager
 {

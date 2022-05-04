@@ -13,6 +13,12 @@ using boost::asio::ip::tcp;
 
 #define BUFFER_SIZE 1024 * 64
 
+namespace jsonrpc 
+{
+    class JsonRpcRequest;
+    class JsonRpcResponse;
+}
+
 class Session : public boost::enable_shared_from_this<Session>
 {   
 public:
@@ -24,7 +30,7 @@ public:
     void recvData();
     void read_handler(boost::system::error_code ec, size_t bytes_transferred, boost::shared_ptr<boost::array<char, BUFFER_SIZE> > buffer);
 
-    void sendData(const neb::CJsonObject& response, const neb::CJsonObject& error);
+    void sendData(const jsonrpc::JsonRpcResponse& response);
 
 private:
     tcp::socket m_socket;                       // socket
